@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nikhil.myroandroid.SignUpActivity">
+    tools:context="com.example.nikhil.myroandroid.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/app_bar_layout">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,39 +24,42 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/new_username"
-        android:hint="Enter your Username"
-        android:layout_below="@id/app_bar_layout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
+        android:id="@+id/username_field"
+        android:hint="Username"
+        android:layout_centerInParent="true"
         />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/new_username"
-        android:id="@+id/new_password"
-        android:hint="Enter Your Password"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/new_password"
-        android:id="@+id/new_password_confirm"
-        android:hint="Enter Password Again"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"/>
+        android:layout_below="@id/username_field"
+        android:id="@+id/password_field"
+        android:hint="Password"
+        android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Register!"
-        android:layout_below="@id/new_password_confirm"
-        android:id="@+id/register"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"/>
+        android:text="Login"
+        android:layout_below="@id/password_field"
+        android:id="@+id/login_button"
+        android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_text"
+        android:text="New User? Then Sign Up!"
+        android:layout_below="@id/login_button"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:layout_below="@id/new_text"
+        android:id="@+id/signup_button"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

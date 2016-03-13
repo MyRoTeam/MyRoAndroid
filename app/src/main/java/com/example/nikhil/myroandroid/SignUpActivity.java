@@ -19,16 +19,12 @@ import java.util.HashMap;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    boolean success = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Button register = (Button) (findViewById(R.id.register));
         final EditText new_username = (EditText) (findViewById(R.id.new_username));
@@ -39,20 +35,13 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //check if username is minimum length
-                if(new_username.getText().toString().length() < 3)
-                {
+                if (new_username.getText().toString().length() < 3) {
                     Toast.makeText(getApplicationContext(), "Username needs to be at least 3 characters long", Toast.LENGTH_LONG).show();
-                }
-                else if(password.getText().toString().length() < 8)
-                {
+                } else if (password.getText().toString().length() < 8) {
                     Toast.makeText(getApplicationContext(), "Password needs to be at least 8 characters long", Toast.LENGTH_LONG).show();
-                }
-                else if(!(password.getText().toString().equals(confirm_password.getText().toString())))
-                {
+                } else if (!(password.getText().toString().equals(confirm_password.getText().toString()))) {
                     Toast.makeText(getApplicationContext(), "Password and Confirmed password are not the same", Toast.LENGTH_LONG).show();
-                }
-                else
-                {
+                } else {
                     final String URL = "https://pure-fortress-98966.herokuapp.com/users";
 
                     //post params to be sent to the server
@@ -62,8 +51,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                     JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params), new Response.Listener<JSONObject>() {
                         @Override
-                        public void onResponse(JSONObject response)
-                        {
+                        public void onResponse(JSONObject response) {
                             Log.d("Response:%n %s", response.toString());
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
                         }
@@ -79,6 +67,8 @@ public class SignUpActivity extends AppCompatActivity {
                 }
             }
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
 }
