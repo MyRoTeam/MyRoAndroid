@@ -74,7 +74,7 @@ public class SessionManager {
         editor.clear();
         editor.commit();
 
-        // After logout redirect user to Loing Activity
+        // After logout redirect user to Login Activity
         Intent i = new Intent(_context, LoginActivity.class);
         // Closing all the Activities
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -85,4 +85,26 @@ public class SessionManager {
         // Staring Login Activity
         _context.startActivity(i);
     }
+
+    public String getUserID()
+    {
+        return pref.getString("user_id","");
+    }
+
+    public String getUDID()
+    {
+        return pref.getString("udid","");
+    }
+
+    public String getUsername()
+    {
+        return pref.getString("user_name","");
+    }
+
+    public String getRobotName()
+    {
+        return pref.getString("robot_name","");
+    }
+
+
 }

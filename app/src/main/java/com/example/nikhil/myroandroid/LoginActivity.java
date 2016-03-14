@@ -3,7 +3,7 @@ package com.example.nikhil.myroandroid;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.provider.Settings.Secure;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -80,14 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                             sessionManager.writePreference("robot_name", Build.SERIAL);
 
                             //store the UDID
-                            sessionManager.writePreference("udid", Settings.Secure.ANDROID_ID);
+                            sessionManager.writePreference("udid", Secure.getString(getContentResolver(), Secure.ANDROID_ID));
 
                             //set the logged in flag
                             sessionManager.writePreference("isLoggedIn", true);
 
-                            //go to main activity
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
                         } catch (JSONException e) {
                             Log.e("MYAPP", "unexpected JSON exception", e);
                             // Do something to recover ... or kill the app.
@@ -102,6 +99,40 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 ApplicationController.requestQueue.add(req);
 
+                params.clear();
+
+                final String robotURL = "https://pure-fortress-98966.herokuapp.com/robots";
+
+                params.put("name", sessionManager.getRobotName());
+                params.put("udid", sessionManager.getUDID());
+
+                JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("Response:%n %s", response.toString());
+
+                        //store the user data in shared preferences
+                        try {
+
+                            String robot_code = response.getString("code");
+                            sessionManager.writePreference("robot_code", robot_code);
+
+                            String robot_id = response.getString("_id");
+                            sessionManager.writePreference("robot_id", robot_id);
+
+                        } catch (JSONException e) {
+                            Log.e("MYAPP", "unexpected JSON exception", e);
+                            // Do something to recover ... or kill the app.
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("Response:%n %s", error.toString());
+                    }
+                });
+                ApplicationController.requestQueue.add(request);
             }
         });
 
