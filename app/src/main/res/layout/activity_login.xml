@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.example.nikhil.myroandroid.MainActivity">
+    tools:context="com.example.nikhil.myroandroid.LoginActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay"
-        android:id="@+id/app_bar">
+        android:theme="@style/AppTheme.AppBarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
@@ -22,37 +21,45 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
-
-  <TextView
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="Choose an operating mode"
-      android:layout_below="@id/app_bar"
-      android:layout_marginTop="50dp"
-      android:textSize="12pt"
-      android:id="@+id/instr"
-      android:layout_centerHorizontal="true"/>
-
-    <Button
+    <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="User Mode"
-        android:layout_below="@id/instr"
-        android:layout_marginTop="20dp"
-        android:id="@+id/user_mode_btn"
+        android:id="@+id/username_field"
+        android:hint="Username"
+        android:layout_centerInParent="true"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/username_field"
+        android:id="@+id/password_field"
+        android:hint="Password"
         android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Robot Mode"
-        android:layout_below="@id/user_mode_btn"
-        android:layout_marginTop="20dp"
-        android:id="@+id/robot_mode_btn"
+        android:text="Login"
+        android:layout_below="@id/password_field"
+        android:id="@+id/login_button"
         android:layout_centerHorizontal="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_text"
+        android:text="New User? Then Sign Up!"
+        android:layout_below="@id/login_button"
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"/>
 
-
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:layout_below="@id/new_text"
+        android:id="@+id/signup_button"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
