@@ -35,14 +35,14 @@ public class SignUpActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //check if username is minimum length
-                if (new_username.getText().toString().length() < 3) {
+                if (new_username.getText().toString().length() <= 3) {
                     Toast.makeText(getApplicationContext(), "Username needs to be at least 3 characters long", Toast.LENGTH_LONG).show();
                 } else if (password.getText().toString().length() < 8) {
                     Toast.makeText(getApplicationContext(), "Password needs to be at least 8 characters long", Toast.LENGTH_LONG).show();
                 } else if (!(password.getText().toString().equals(confirm_password.getText().toString()))) {
                     Toast.makeText(getApplicationContext(), "Password and Confirmed password are not the same", Toast.LENGTH_LONG).show();
                 } else {
-                    final String URL = "https://pure-fortress-98966.herokuapp.com/users";
+                    final String URL = ApplicationController.URL+"users";//"https://pure-fortress-98966.herokuapp.com/users";
 
                     //post params to be sent to the server
                     HashMap<String, String> params = new HashMap<String, String>();

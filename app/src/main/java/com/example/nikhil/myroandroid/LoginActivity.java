@@ -49,10 +49,10 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String URL = "https://pure-fortress-98966.herokuapp.com/users/login";
+                final String URL = ApplicationController.URL+"users/login";
 
                 //post params to be sent to the server
-                HashMap<String, String> params = new HashMap<String, String>();
+                final HashMap<String, String> params = new HashMap<String, String>();
                 params.put("username", username.getText().toString());
                 params.put("password", password.getText().toString());
 
@@ -85,8 +85,46 @@ public class LoginActivity extends AppCompatActivity {
                             //set the logged in flag
                             sessionManager.writePreference("isLoggedIn", true);
 
+                            params.clear();
+
+                            final String robotURL = ApplicationController.URL+"robots";
+
+                            params.put("name", sessionManager.getRobotName());
+                            params.put("udid", sessionManager.getUDID());
+
+                            JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    Log.d("Response:%n %s", response.toString());
+
+                                    //store the user data in shared preferences
+                                    try {
+
+                                        String robot_code = response.getString("code");
+                                        sessionManager.writePreference("robot_code", robot_code);
+
+                                        String robot_id = response.getString("_id");
+                                        sessionManager.writePreference("robot_id", robot_id);
+
+                                        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                                        startActivity(intent);
+
+                                    } catch (JSONException e) {
+                                        Log.e("MYAPP", "unexpected JSON exception", e);
+                                        // Do something to recover ... or kill the app.
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+                                    Log.d("Response:%n %s", error.toString());
+                                }
+                            });
+                            ApplicationController.requestQueue.add(request);
+
                         } catch (JSONException e) {
-                            Log.e("MYAPP", "unexpected JSON exception", e);
+                            Log.e("MYAPP",  e.toString());
                             // Do something to recover ... or kill the app.
                         }
 
@@ -99,40 +137,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
                 ApplicationController.requestQueue.add(req);
 
-                params.clear();
 
-                final String robotURL = "https://pure-fortress-98966.herokuapp.com/robots";
-
-                params.put("name", sessionManager.getRobotName());
-                params.put("udid", sessionManager.getUDID());
-
-                JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        Log.d("Response:%n %s", response.toString());
-
-                        //store the user data in shared preferences
-                        try {
-
-                            String robot_code = response.getString("code");
-                            sessionManager.writePreference("robot_code", robot_code);
-
-                            String robot_id = response.getString("_id");
-                            sessionManager.writePreference("robot_id", robot_id);
-
-                        } catch (JSONException e) {
-                            Log.e("MYAPP", "unexpected JSON exception", e);
-                            // Do something to recover ... or kill the app.
-                        }
-
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("Response:%n %s", error.toString());
-                    }
-                });
-                ApplicationController.requestQueue.add(request);
             }
         });
 
