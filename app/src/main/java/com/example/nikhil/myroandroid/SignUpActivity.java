@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("Register Error Response:%n %s", error.toString());
+                            Log.d("Error Response:%n %s", error.toString());
                         }
                     });
                     ApplicationController.requestQueue.add(req);

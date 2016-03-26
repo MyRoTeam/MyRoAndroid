@@ -9,8 +9,8 @@ import com.android.volley.toolbox.Volley;
  * Created by Nikhil on 3/12/16.
  */
 public class ApplicationController  extends Application {
-    private static final boolean DEBUG = false;
-    public static final String URL= DEBUG ? "http://10.0.2.2:3000/" : "https://pure-fortress-98966.herokuapp.com/";
+    //private static final boolean DEBUG = true;
+    public static final String URL= "https://pure-fortress-98966.herokuapp.com/";
 
     public static RequestQueue requestQueue;
 

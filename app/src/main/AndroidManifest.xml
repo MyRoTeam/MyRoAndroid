@@ -34,6 +34,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nikhil.myroandroid.LoginActivity" />
         </activity>
+        <activity
+            android:name=".MyMyroActivity"
+            android:label="@string/title_activity_my_myro"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

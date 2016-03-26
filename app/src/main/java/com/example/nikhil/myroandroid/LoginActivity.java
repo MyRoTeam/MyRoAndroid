@@ -12,9 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -94,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                             final String robotURL = ApplicationController.URL+"robots";
 
                             params.put("name", sessionManager.getRobotName());
-                            params.put("udid", sessionManager.getUDID());
+                            params.put("udid", /*sessionManager.getUDID()*/ "1234567891234567");
 
 
                             JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
@@ -123,7 +121,7 @@ public class LoginActivity extends AppCompatActivity {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Log.d("Robot Error Response:%n %s", error.toString() + " : " + error.getMessage());
+                                    Log.d("Error Response:%n %s", error.toString() + " : " + error.getMessage());
                                 }
                             });
 
