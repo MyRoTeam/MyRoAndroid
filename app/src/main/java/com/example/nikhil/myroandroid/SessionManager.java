@@ -106,5 +106,14 @@ public class SessionManager {
         return pref.getString("robot_name","");
     }
 
+    public String getRobotID()
+    {
+        return pref.getString("robot_id","");
+    }
+
+    public String getRobotCode()
+    {
+        return pref.getString("robot_code","");
+    }
 
 }

@@ -52,13 +52,13 @@ public class SignUpActivity extends AppCompatActivity {
                     JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params), new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            Log.d("Response:%n %s", response.toString());
+                            Log.d("Register Response:%n %s", response.toString());
                             Toast.makeText(getApplicationContext(), "Registration Successful!", Toast.LENGTH_LONG).show();
                         }
                     }, new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-                            Log.d("Response:%n %s", error.toString());
+                            Log.d("Error Response:%n %s", error.toString());
                         }
                     });
                     ApplicationController.requestQueue.add(req);

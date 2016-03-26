@@ -1,5 +1,6 @@
 package com.example.nikhil.myroandroid;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +23,6 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "User Login Status: " + sessionManager.isLoggedIn(), Toast.LENGTH_LONG).show();
         sessionManager.checkLogin();
 
-        final String URL = "https://pure-fortress-98966.herokuapp.com/robots";
 
 
 
@@ -51,6 +51,12 @@ public class MainActivity extends AppCompatActivity {
         if(id == R.id.action_logout)
         {
             sessionManager.logoutUser();
+        }
+
+        if(id == R.id.action_my_myro)
+        {
+            Intent intent = new Intent(getApplicationContext(), MyMyroActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
