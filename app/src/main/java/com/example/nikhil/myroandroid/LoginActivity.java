@@ -12,7 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 
@@ -51,6 +53,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 final String URL = ApplicationController.URL+"users/login";
 
+                Log.d("URL",URL);
+
                 //post params to be sent to the server
                 final HashMap<String, String> params = new HashMap<String, String>();
                 params.put("username", username.getText().toString());
@@ -59,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
                 JsonObjectRequest req = new JsonObjectRequest(URL, new JSONObject(params), new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("Response:%n %s", response.toString());
+                        Log.d("Login Response:%n %s", response.toString());
                         Toast.makeText(getApplicationContext(), "Login Successful!", Toast.LENGTH_LONG).show();
                         //store the user data in shared preferences
                         try {
@@ -92,10 +96,11 @@ public class LoginActivity extends AppCompatActivity {
                             params.put("name", sessionManager.getRobotName());
                             params.put("udid", sessionManager.getUDID());
 
+
                             JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
                                 @Override
                                 public void onResponse(JSONObject response) {
-                                    Log.d("Response:%n %s", response.toString());
+                                    Log.d("Robot Response:%n %s", response.toString());
 
                                     //store the user data in shared preferences
                                     try {
@@ -118,10 +123,16 @@ public class LoginActivity extends AppCompatActivity {
                             }, new Response.ErrorListener() {
                                 @Override
                                 public void onErrorResponse(VolleyError error) {
-                                    Log.d("Response:%n %s", error.toString());
+                                    Log.d("Robot Error Response:%n %s", error.toString() + " : " + error.getMessage());
                                 }
                             });
+
+
+
+
                             ApplicationController.requestQueue.add(request);
+
+
 
                         } catch (JSONException e) {
                             Log.e("MYAPP",  e.toString());
@@ -135,6 +146,9 @@ public class LoginActivity extends AppCompatActivity {
                         Log.d("Response:%n %s", error.toString());
                     }
                 });
+
+
+
                 ApplicationController.requestQueue.add(req);
 
 
