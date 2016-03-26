@@ -42,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
                 } else if (!(password.getText().toString().equals(confirm_password.getText().toString()))) {
                     Toast.makeText(getApplicationContext(), "Password and Confirmed password are not the same", Toast.LENGTH_LONG).show();
                 } else {
-                    final String URL = ApplicationController.URL+"users";//"https://pure-fortress-98966.herokuapp.com/users";
+                    final String URL = ApplicationController.URL+"/users";//"https://pure-fortress-98966.herokuapp.com/users";
 
                     //post params to be sent to the server
                     HashMap<String, String> params = new HashMap<String, String>();
