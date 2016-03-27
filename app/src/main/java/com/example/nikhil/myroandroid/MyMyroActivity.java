@@ -31,6 +31,8 @@ public class MyMyroActivity extends AppCompatActivity {
         TextView robotcode = (TextView) findViewById(R.id.robotcode);
         robotcode.setText("Robot Code: "+sessionManager.getRobotCode());
 
+
+
     }
 
 }

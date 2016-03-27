@@ -5,4 +5,8 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_my_myro">MyMyroActivity</string>
+    <string name="title_activity_call_screen">CallScreenActivity</string>
+    <string name="title_activity_connect">ConnectActivity</string>
+    <string name="title_activity_base">BaseActivity</string>
+    <string name="title_activity_wait">WaitActivity</string>
 </resources>

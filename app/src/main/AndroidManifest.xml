@@ -2,7 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nikhil.myroandroid">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
     <application
         android:name=".ApplicationController"
@@ -37,6 +42,38 @@
         <activity
             android:name=".MyMyroActivity"
             android:label="@string/title_activity_my_myro"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <service
+            android:name=".SinchService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <activity
+            android:name=".ConnectActivity"
+            android:label="@string/title_activity_connect"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhil.myroandroid.MainActivity" />
+        </activity>
+        <activity
+            android:name=".BaseActivity"
+            android:label="@string/title_activity_base"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".WaitActivity"
+            android:label="@string/title_activity_wait"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.nikhil.myroandroid.MainActivity" />
+        </activity>
+        <activity
+            android:name=".CallScreenActivity"
+            android:label="@string/title_activity_call_screen"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

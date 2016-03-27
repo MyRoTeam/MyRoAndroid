@@ -1,16 +1,23 @@
 package com.example.nikhil.myroandroid;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
-public class MainActivity extends AppCompatActivity {
+import com.sinch.android.rtc.SinchError;
+
+public class MainActivity extends  BaseActivity implements SinchService.StartFailedListener {
 
     SessionManager sessionManager;
+    private ProgressDialog mSpinner;
+
+    public static boolean robotModeClicked = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,14 +27,86 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         sessionManager = new SessionManager(getApplicationContext());
-        Toast.makeText(getApplicationContext(), "User Login Status: " + sessionManager.isLoggedIn(), Toast.LENGTH_LONG).show();
+        //Toast.makeText(getApplicationContext(), "User Login Status: " + sessionManager.isLoggedIn(), Toast.LENGTH_LONG).show();
         sessionManager.checkLogin();
 
+        Button usermode = (Button) findViewById(R.id.user_mode_btn);
+        usermode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.robotModeClicked = false;
+                if (!getSinchServiceInterface().isStarted()) {
+                    getSinchServiceInterface().startClient(sessionManager.getUsername());
 
+                }
+                else
+                {
+                    enterMode();
+                }
+            }
+        });
 
+        Button robotmode = (Button) findViewById(R.id.robot_mode_btn);
+        robotmode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.robotModeClicked = true;
+                if (!getSinchServiceInterface().isStarted()) {
+                    getSinchServiceInterface().startClient(sessionManager.getRobotName());
 
+                }
+                else
+                {
+                    enterMode();
+                }
+            }
+        });
 
     }
+
+    public void enterMode()
+    {
+        if(MainActivity.robotModeClicked)
+        {
+            Intent intent = new Intent(getApplicationContext(), WaitActivity.class);
+            startActivity(intent);
+        }
+        else
+        {
+            Intent intent = new Intent(getApplicationContext(), ConnectActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onServiceConnected() {
+        //mLoginButton.setEnabled(true);
+        getSinchServiceInterface().setStartListener(this);
+    }
+
+    @Override
+    protected void onPause() {
+        if (mSpinner != null) {
+            mSpinner.dismiss();
+        }
+        super.onPause();
+    }
+
+    @Override
+    public void onStarted() {
+        enterMode();
+    }
+
+    @Override
+    public void onStartFailed(SinchError error) {
+        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
+        if (mSpinner != null) {
+            mSpinner.dismiss();
+        }
+    }
+
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
