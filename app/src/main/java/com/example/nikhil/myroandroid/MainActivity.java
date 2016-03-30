@@ -1,8 +1,13 @@
 package com.example.nikhil.myroandroid;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,13 +40,16 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
             @Override
             public void onClick(View v) {
                 MainActivity.robotModeClicked = false;
-                if (!getSinchServiceInterface().isStarted()) {
-                    getSinchServiceInterface().startClient(sessionManager.getUsername());
+                if(hasRecordAudioPermission()) {
+                    if (!getSinchServiceInterface().isStarted()) {
+                        getSinchServiceInterface().startClient(sessionManager.getUsername());
 
+                    } else {
+                        enterMode();
+                    }
                 }
-                else
-                {
-                    enterMode();
+                else{
+                    requestRecordAudioPermission();
                 }
             }
         });
@@ -140,4 +148,52 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private boolean hasRecordAudioPermission(){
+        boolean hasPermission = (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED) && (ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED);
+
+        Log.d("STATUS", "Has RECORD_AUDIO and CAMERA permission? " + hasPermission);
+        return hasPermission;
+    }
+
+    private void requestRecordAudioPermission(){
+
+        String requiredPermission = Manifest.permission.RECORD_AUDIO;
+        String requiredPermissionTwo = Manifest.permission.CAMERA;
+
+        // If the user previously denied this permission then show a message explaining why
+        // this permission is needed
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                requiredPermission)) {
+
+            Toast.makeText(MainActivity.this,"This app needs to record audio through the microphone....",Toast.LENGTH_SHORT);
+        }
+
+        // request the permission.
+        ActivityCompat.requestPermissions(this,
+                new String[]{requiredPermission,requiredPermissionTwo},
+                5);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+
+        // This method is called when the user responds to the permissions dialog
+
+        if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+
+            if (!getSinchServiceInterface().isStarted()) {
+                getSinchServiceInterface().startClient(sessionManager.getUsername());
+
+            } else {
+                enterMode();
+            }
+
+        }
+    }
+
+
 }

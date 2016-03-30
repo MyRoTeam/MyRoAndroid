@@ -92,7 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                             final String robotURL = ApplicationController.URL+"robots";
 
                             params.put("name", sessionManager.getRobotName());
-                            params.put("udid", /*sessionManager.getUDID()*/ "1234567891234567");
+                            params.put("udid", /*sessionManager.getUDID()*/ "1234567891234564");
 
 
                             JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {

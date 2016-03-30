@@ -58,8 +58,8 @@
 
         android:orientation="vertical">
 
-        <LinearLayout android:id="@+id/remoteVideo" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_alignParentLeft="true"
+        <LinearLayout android:id="@+id/remoteVideo" android:layout_width="200dp"
+            android:layout_height="200dp" android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true" android:orientation="horizontal"/>
 
         <RelativeLayout android:id="@+id/localVideo" android:layout_width="150dp"

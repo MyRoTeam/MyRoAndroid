@@ -116,7 +116,7 @@ public class CallScreenActivity extends BaseActivity {
         if (call != null) {
             mCallerName.setText(call.getRemoteUserId());
             mCallState.setText(call.getState().toString());
-            if (call.getState() == CallState.ESTABLISHED) {
+            if (true) {
                 addVideoViews();
             }
         }
@@ -167,11 +167,15 @@ public class CallScreenActivity extends BaseActivity {
 
     private void addVideoViews() {
         if (mVideoViewsAdded || getSinchServiceInterface() == null) {
+            Log.d("TEST","getSinchServiceInterface() IS NULL");
+
             return; //early
         }
 
         final VideoController vc = getSinchServiceInterface().getVideoController();
         if (vc != null) {
+            Log.d("TEST","vc not null");
+
             RelativeLayout localView = (RelativeLayout) findViewById(R.id.localVideo);
             localView.addView(vc.getLocalView());
             localView.setOnClickListener(new View.OnClickListener() {
@@ -182,8 +186,12 @@ public class CallScreenActivity extends BaseActivity {
             });
 
             LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
+            if(vc.getRemoteView() == null) Log.e("TEST","remoteview is null");
             view.addView(vc.getRemoteView());
             mVideoViewsAdded = true;
+        }
+        else{
+            Log.d("TEST","vc is null");
         }
     }
 
@@ -194,6 +202,7 @@ public class CallScreenActivity extends BaseActivity {
 
         VideoController vc = getSinchServiceInterface().getVideoController();
         if (vc != null) {
+
             LinearLayout view = (LinearLayout) findViewById(R.id.remoteVideo);
             view.removeView(vc.getRemoteView());
 
@@ -201,6 +210,7 @@ public class CallScreenActivity extends BaseActivity {
             localView.removeView(vc.getLocalView());
             mVideoViewsAdded = false;
         }
+
     }
 
     private class SinchCallListener implements VideoCallListener {
@@ -228,7 +238,7 @@ public class CallScreenActivity extends BaseActivity {
         }
 
         @Override
-        public void onCallProgressing(Call call) {
+        public void onCallProgressing(Call call){
             Log.d(TAG, "Call progressing");
         }
 
