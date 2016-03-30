@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,9 +29,24 @@ public class MainActivity extends AppCompatActivity {
         sessionManager.checkLogin();
 
         Button usermode = (Button) findViewById(R.id.user_mode_btn);
+        usermode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.robotModeClicked = false;
+                enterMode();
+            }
+        });
 
 
         Button robotmode = (Button) findViewById(R.id.robot_mode_btn);
+        robotmode.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.robotModeClicked = true;
+                enterMode();
+
+            }
+        });
 
     }
 
@@ -56,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onPause();
     }
+
 
 
     @Override

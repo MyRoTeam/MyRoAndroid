@@ -1,7 +1,6 @@
 package com.example.nikhil.myroandroid;
 
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings.Secure;
 import android.support.v7.app.AppCompatActivity;
@@ -79,7 +78,7 @@ public class LoginActivity extends AppCompatActivity {
                             sessionManager.writePreference("user_name",user_name);
 
                             //store the robot name
-                            sessionManager.writePreference("robot_name", Build.SERIAL);
+                            sessionManager.writePreference("robot_name", /*Build.SERIAL*/ "abcdefghijk");
 
                             //store the UDID
                             sessionManager.writePreference("udid", Secure.getString(getContentResolver(), Secure.ANDROID_ID));
@@ -92,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                             final String robotURL = ApplicationController.URL+"robots";
 
                             params.put("name", sessionManager.getRobotName());
-                            params.put("udid", /*sessionManager.getUDID()*/ "1234567891234567");
+                            params.put("udid", /*sessionManager.getUDID()*/ "123456789123456789012");
 
 
                             JsonObjectRequest request = new JsonObjectRequest(robotURL, new JSONObject(params), new Response.Listener<JSONObject>() {
