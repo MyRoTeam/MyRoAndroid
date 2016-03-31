@@ -9,4 +9,5 @@
     <string name="title_activity_connect">ConnectActivity</string>
     <string name="title_activity_base">BaseActivity</string>
     <string name="title_activity_wait">WaitActivity</string>
+    <string name="title_activity_video_chat">VideoChatActivity</string>
 </resources>

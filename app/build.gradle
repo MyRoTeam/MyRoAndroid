@@ -25,6 +25,12 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.1'
     compile 'com.android.support:design:23.2.1'
     compile 'com.android.volley:volley:1.0.0'
+<<<<<<< HEAD
     compile files('libs/sinch-android-rtc-3.9.3.jar')
     compile files('/Users/shreyashirday/Programming/Classes/SoftwareEngineering/MyRoAndroid/libs/sinch-android-rtc-3.9.3.jar')
+=======
+    compile 'io.pristine:libjingle:9694@aar'
+    compile 'me.kevingleason:pnwebrtc:1.0.6@aar'
+    compile 'com.pubnub:pubnub-android:3.7.4'
+>>>>>>> Nikhil/IS-2
 }

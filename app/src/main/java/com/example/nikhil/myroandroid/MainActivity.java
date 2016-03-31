@@ -5,19 +5,20 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+=======
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+>>>>>>> Nikhil/IS-2
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
-import android.support.v7.widget.Toolbar;
 
-import com.sinch.android.rtc.SinchError;
-
-public class MainActivity extends  BaseActivity implements SinchService.StartFailedListener {
+public class MainActivity extends AppCompatActivity {
 
     SessionManager sessionManager;
     private ProgressDialog mSpinner;
@@ -40,6 +41,7 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
             @Override
             public void onClick(View v) {
                 MainActivity.robotModeClicked = false;
+<<<<<<< HEAD
                 if(hasRecordAudioPermission()) {
                     if (!getSinchServiceInterface().isStarted()) {
                         getSinchServiceInterface().startClient(sessionManager.getUsername());
@@ -51,22 +53,20 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
                 else{
                     requestRecordAudioPermission();
                 }
+=======
+                enterMode();
+>>>>>>> Nikhil/IS-2
             }
         });
+
 
         Button robotmode = (Button) findViewById(R.id.robot_mode_btn);
         robotmode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MainActivity.robotModeClicked = true;
-                if (!getSinchServiceInterface().isStarted()) {
-                    getSinchServiceInterface().startClient(sessionManager.getRobotName());
+                enterMode();
 
-                }
-                else
-                {
-                    enterMode();
-                }
             }
         });
 
@@ -86,11 +86,6 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
         }
     }
 
-    @Override
-    protected void onServiceConnected() {
-        //mLoginButton.setEnabled(true);
-        getSinchServiceInterface().setStartListener(this);
-    }
 
     @Override
     protected void onPause() {
@@ -99,20 +94,6 @@ public class MainActivity extends  BaseActivity implements SinchService.StartFai
         }
         super.onPause();
     }
-
-    @Override
-    public void onStarted() {
-        enterMode();
-    }
-
-    @Override
-    public void onStartFailed(SinchError error) {
-        Toast.makeText(this, error.toString(), Toast.LENGTH_LONG).show();
-        if (mSpinner != null) {
-            mSpinner.dismiss();
-        }
-    }
-
 
 
 
