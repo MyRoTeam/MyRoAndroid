@@ -191,6 +191,7 @@ public class ConnectActivity extends AppCompatActivity {
                         public void successCallback(String channel, Object message) {
                             Log.d("MA-dC", "SUCCESS: " + message.toString());
                             Intent intent = new Intent(getApplicationContext(), VideoChatActivity.class);
+                            Log.d("TEST","username: " + username + ", " + "callname: " + callNum);
                             intent.putExtra(USER_NAME, username);
                             intent.putExtra(CALL_USER, callNum);
                             startActivity(intent);

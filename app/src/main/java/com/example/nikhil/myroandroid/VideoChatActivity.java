@@ -26,6 +26,8 @@ import me.kevingleason.pnwebrtc.PnRTCClient;
 
 public class VideoChatActivity extends AppCompatActivity {
 
+    private final String TAG = "VideoChatActivity";
+
     public static String PUB_KEY = "pub-c-0fc9cafa-0e49-446b-9817-3f79e516aa02";
     public static String SUB_KEY = "sub-c-4fe709be-f691-11e5-8180-0619f8945a4f";
 
@@ -78,6 +80,8 @@ public class VideoChatActivity extends AppCompatActivity {
         username  = extras.getString(USER_NAME, "");
         mCallStatus = (TextView) findViewById(R.id.call_status);
 
+        Log.d(TAG,"Step 1");
+
 
         // First, we initiate the PeerConnectionFactory with our application context and some options.
         PeerConnectionFactory.initializeAndroidGlobals(
@@ -87,64 +91,108 @@ public class VideoChatActivity extends AppCompatActivity {
                 true,  // Hardware Acceleration Enabled
                 null); // Render EGL Context
 
+        Log.d(TAG, "Step 2");
+
+
         PeerConnectionFactory pcFactory = new PeerConnectionFactory();
         this.pnRTCClient = new PnRTCClient(PUB_KEY, SUB_KEY, username);
+
+        Log.d(TAG,"Step 3");
+
 
         // Returns the number of cams & front/back face device name
         int camNumber = VideoCapturerAndroid.getDeviceCount();
         String frontFacingCam = VideoCapturerAndroid.getNameOfFrontFacingDevice();
         String backFacingCam = VideoCapturerAndroid.getNameOfBackFacingDevice();
 
+        Log.d(TAG,"Step 4");
+
+
         // Creates a VideoCapturerAndroid instance for the device name
         VideoCapturer capturer = VideoCapturerAndroid.create(frontFacingCam);
+
+        Log.d(TAG,"Step 5");
 
         // First create a Video Source, then we can make a Video Track
         localVideoSource = pcFactory.createVideoSource(capturer, this.pnRTCClient.videoConstraints());
         VideoTrack localVideoTrack = pcFactory.createVideoTrack(VIDEO_TRACK_ID, localVideoSource);
 
+        Log.d(TAG,"Step 6");
+
+
         // First we create an AudioSource then we can create our AudioTrack
         AudioSource audioSource = pcFactory.createAudioSource(this.pnRTCClient.audioConstraints());
         AudioTrack localAudioTrack = pcFactory.createAudioTrack(AUDIO_TRACK_ID, audioSource);
+
+        Log.d(TAG,"Step 7");
+
 
         // To create our VideoRenderer, we can use the included VideoRendererGui for simplicity
         // First we need to set the GLSurfaceView that it should render to
         this.videoView = (GLSurfaceView) findViewById(R.id.gl_surface);
 
 
+        Log.d(TAG,"Step 8");
+
         // Then we set that view, and pass a Runnable to run once the surface is ready
         VideoRendererGui.setView(videoView, null);
+
+        Log.d(TAG, "Step 9");
+
 
         // Now that VideoRendererGui is ready, we can get our VideoRenderer.
         // IN THIS ORDER. Effects which is on top or bottom
         remoteRender = VideoRendererGui.create(0, 0, 100, 100, VideoRendererGui.ScalingType.SCALE_ASPECT_FILL, false);
         localRender = VideoRendererGui.create(0, 0, 100, 100, VideoRendererGui.ScalingType.SCALE_ASPECT_FILL, true);
 
+        Log.d(TAG,"Step 10");
+
+
         // We start out with an empty MediaStream object, created with help from our PeerConnectionFactory
         //  Note that LOCAL_MEDIA_STREAM_ID can be any string
         MediaStream mediaStream = pcFactory.createLocalMediaStream(LOCAL_MEDIA_STREAM_ID);
+
+        Log.d(TAG,"Step 11");
+
 
         // Now we can add our tracks.
         mediaStream.addTrack(localVideoTrack);
         mediaStream.addTrack(localAudioTrack);
 
+        Log.d(TAG, "Step 12");
+
         // First attach the RTC Listener so that callback events will be triggered
         this.pnRTCClient.attachRTCListener(new DemoRTCListener());
+
+        Log.d(TAG, "Step 13");
+
 
         // Then attach your local media stream to the PnRTCClient.
         //  This will trigger the onLocalStream callback.
         this.pnRTCClient.attachLocalMediaStream(mediaStream);
+
+
+        Log.d(TAG, "Step 14");
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Log.d(TAG, "Step 15");
+
+
         // Then attach your local media stream to the PnRTCClient.
         //  This will trigger the onLocalStream callback.
         this.pnRTCClient.attachLocalMediaStream(mediaStream);
 
+        Log.d(TAG, "Step 16");
+
+
         // Listen on a channel. This is your "phone number," also set the max chat users.
         if(MainActivity.robotModeClicked)
         {
+            Log.d(TAG,"Robot Mode Clicked");
+
             this.pnRTCClient.listenOn(sessionManager.getRobotName());
             this.pnRTCClient.setMaxConnections(1);
         }
@@ -152,6 +200,8 @@ public class VideoChatActivity extends AppCompatActivity {
         // If the intent contains a number to dial, call it now that you are connected.
         //  Else, remain listening for a call.
         if (extras.containsKey(CALL_USER)) {
+            Log.d(TAG,"contains CALL_USER");
+
             String callUser = extras.getString(CALL_USER, "");
             connectToUser(callUser);
         }
@@ -170,6 +220,8 @@ public class VideoChatActivity extends AppCompatActivity {
         super.onResume();
         this.videoView.onResume();
         this.localVideoSource.restart();
+        Log.d(TAG, "onResume()");
+
     }
 
     @Override
@@ -206,12 +258,19 @@ public class VideoChatActivity extends AppCompatActivity {
     }
 
     public void connectToUser(String user) {
+
         this.pnRTCClient.connect(user);
+
+        Log.d(TAG, "connectToUser");
+
     }
 
     public void hangup(View view) {
         this.pnRTCClient.closeAllConnections();
+        Log.d(TAG, "closeAllConnections");
         endCall();
+        Log.d(TAG, "endCall()");
+
     }
 
     private void endCall() {
@@ -227,11 +286,16 @@ public class VideoChatActivity extends AppCompatActivity {
         @Override
         public void onLocalStream(final MediaStream localStream) {
             super.onLocalStream(localStream); // Will log values
+            Log.d(TAG, "onLocalStream");
+
             VideoChatActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+
                     if(localStream.videoTracks.size()==0) return;
                     localStream.videoTracks.get(0).addRenderer(new VideoRenderer(localRender));
+                    Log.d(TAG, "running on ui thread onLocalStram");
+
                 }
             });
         }
@@ -239,9 +303,13 @@ public class VideoChatActivity extends AppCompatActivity {
         @Override
         public void onAddRemoteStream(final MediaStream remoteStream, final PnPeer peer) {
             super.onAddRemoteStream(remoteStream, peer); // Will log values
+            Log.d(TAG, "onAddRemoteStream");
+
             VideoChatActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d(TAG,"running on ui thread onRemoteStream");
+
                     Toast.makeText(VideoChatActivity.this, "Connected to " + peer.getId(), Toast.LENGTH_SHORT).show();
                     try {
                         if(remoteStream.audioTracks.size()==0 || remoteStream.videoTracks.size()==0) return;
@@ -258,9 +326,13 @@ public class VideoChatActivity extends AppCompatActivity {
         @Override
         public void onPeerConnectionClosed(PnPeer peer) {
             super.onPeerConnectionClosed(peer);
+            Log.d(TAG, "onPeerConnectionClosed");
+
             VideoChatActivity.this.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                    Log.d(TAG,"running on ui thread onPerrConnectionClosed");
+
                     mCallStatus.setText("Call Ended...");
                     mCallStatus.setVisibility(View.VISIBLE);
                 }
