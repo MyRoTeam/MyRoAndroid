@@ -5,18 +5,19 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-<<<<<<< HEAD
+
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
-=======
+
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
->>>>>>> Nikhil/IS-2
+
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,21 +42,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.robotModeClicked = false;
-<<<<<<< HEAD
-                if(hasRecordAudioPermission()) {
-                    if (!getSinchServiceInterface().isStarted()) {
-                        getSinchServiceInterface().startClient(sessionManager.getUsername());
 
-                    } else {
-                        enterMode();
-                    }
+                if(hasRecordAudioPermission()){
+                    enterMode();
                 }
                 else{
                     requestRecordAudioPermission();
                 }
-=======
-                enterMode();
->>>>>>> Nikhil/IS-2
+
+
             }
         });
 
@@ -65,7 +60,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MainActivity.robotModeClicked = true;
-                enterMode();
+
+                if(hasRecordAudioPermission()){
+                    enterMode();
+                }
+                else{
+                    requestRecordAudioPermission();
+                }
 
             }
         });
@@ -149,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 requiredPermission)) {
 
-            Toast.makeText(MainActivity.this,"This app needs to record audio through the microphone....",Toast.LENGTH_SHORT);
+            Toast.makeText(MainActivity.this, "This app needs to record audio through the microphone....", Toast.LENGTH_SHORT);
         }
 
         // request the permission.
@@ -166,12 +167,8 @@ public class MainActivity extends AppCompatActivity {
 
         if(grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
 
-            if (!getSinchServiceInterface().isStarted()) {
-                getSinchServiceInterface().startClient(sessionManager.getUsername());
-
-            } else {
                 enterMode();
-            }
+
 
         }
     }
