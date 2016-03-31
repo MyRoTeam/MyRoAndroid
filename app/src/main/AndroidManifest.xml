@@ -68,10 +68,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.nikhil.myroandroid.MainActivity" />
         </activity>
-<<<<<<< HEAD
 
-=======
->>>>>>> Nikhil/IS-2
         <activity
             android:name=".WaitActivity"
             android:label="@string/title_activity_wait"
